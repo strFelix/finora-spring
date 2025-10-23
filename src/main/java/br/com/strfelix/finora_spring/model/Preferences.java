@@ -1,30 +1,42 @@
 package br.com.strfelix.finora_spring.model;
 
+import jakarta.persistence.Transient;
+
 public class Preferences {
-    private int id;
-    private String preferences;
+    @Transient
+    private boolean darkMode;
 
-    public Preferences() {
+    @Transient
+    private String language;
+
+    @Transient
+    private String currency;
+
+    @Transient
+    private int itemsPerPage;
+
+    @Transient
+    private boolean emailNotifications;
+
+    public Preferences() {}
+
+    public boolean isDarkMode() {
+        return darkMode;
     }
 
-    public Preferences(int id, String preferences) {
-        this.id = id;
-        this.preferences = preferences;
+    public String getLanguage() {
+        return language;
     }
 
-    public int getId() {
-        return id;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getItemsPerPage() {
+        return itemsPerPage;
     }
 
-    public String getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(String preferences) {
-        this.preferences = preferences;
+    public boolean isEmailNotifications() {
+        return emailNotifications;
     }
 }

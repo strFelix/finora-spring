@@ -1,0 +1,57 @@
+package br.com.strfelix.finora_spring.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.strfelix.finora_spring.model.Preferences;
+import br.com.strfelix.finora_spring.model.User;
+import br.com.strfelix.finora_spring.service.UserService;
+
+@RestController
+@RequestMapping("/api/users/")
+public class UserController {
+    @Autowired
+    private UserService _userService;
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void CreateUser(@RequestBody User user){
+        _userService.CreateUser(user);
+    }
+
+    @PostMapping("/authenticate")
+    @ResponseStatus(HttpStatus.OK)
+    public User AuthenticateUser(@RequestBody Map<String, String> body){
+        return _userService.AuthenticateUser(body.get("email"), body.get("plainPassword"));
+    }
+
+    @PutMapping("/")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void UpdateUser(@RequestBody User user){
+        _userService.UpdateUserById(user);
+    }
+
+    @PutMapping("/preferences/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void UpdateUserPreferences(@RequestBody Preferences preferences, @PathVariable Long userId){
+        _userService.UpdateUserPreferences(preferences, userId);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void DeleteUser(@PathVariable Long id){
+        _userService.DeleteUserById(id);
+    }
+}
