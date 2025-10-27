@@ -1,5 +1,6 @@
 package br.com.strfelix.finora_spring.model;
 
+import br.com.strfelix.finora_spring.model.enums.GoalType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -47,8 +48,9 @@ public class Goal {
     @Column(name = "DT_LIMITE", nullable = false)
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "TIPO_META", nullable = false, length = 1)
-    private String goalType; // 'E', 'G' ou 'L'
+    private GoalType goalType;
 
     @Lob
     @Column(name = "NOTIFICACAO_CONFIG", columnDefinition = "CLOB")
@@ -58,7 +60,7 @@ public class Goal {
 
     public Goal(User user, Category category, String title, String description,
                 BigDecimal targetValue, BigDecimal currentValue, LocalDate startDate,
-                LocalDate endDate, String goalType, String notificationConfig) {
+                LocalDate endDate, GoalType goalType, String notificationConfig) {
         this.user = user;
         this.category = category;
         this.title = title;
@@ -98,8 +100,8 @@ public class Goal {
     public LocalDate getEndDate() { return endDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
 
-    public String getGoalType() { return goalType; }
-    public void setGoalType(String goalType) { this.goalType = goalType; }
+    public GoalType getGoalType() { return goalType; }
+    public void setGoalType(GoalType goalType) { this.goalType = goalType; }
 
     public String getNotificationConfig() { return notificationConfig; }
     public void setNotificationConfig(String notificationConfig) { this.notificationConfig = notificationConfig; }
