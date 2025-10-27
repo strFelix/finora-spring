@@ -2,6 +2,8 @@ package br.com.strfelix.finora_spring.model;
 
 import br.com.strfelix.finora_spring.model.enums.TransactionType;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -38,8 +40,8 @@ public class Transaction {
     @JoinColumn(name = "ID_LOCAL")
     private Local local;
 
-    @Column(name = "VL_TRANSACAO", nullable = false, precision = 10, scale = 2)
-    private Double value;
+    @Column(name = "VL_TRANSACAO", precision = 10, scale = 2)
+    private BigDecimal value;
 
     @Column(name = "DT_TRANSICAO", nullable = false)
     private LocalDate date;
@@ -63,7 +65,7 @@ public class Transaction {
     public Transaction() {}
 
     public Transaction(User user, Category category, Recurrence recurrence, Local local,
-                       Double value, LocalDate date, String description, TransactionType type,
+                       BigDecimal value, LocalDate date, String description, TransactionType type,
                        Integer installment, Integer totalInstallments, boolean recurring) {
         this.user = user;
         this.category = category;
@@ -93,8 +95,8 @@ public class Transaction {
     public Local getLocal() { return local; }
     public void setLocal(Local local) { this.local = local; }
 
-    public Double getValue() { return value; }
-    public void setValue(Double value) { this.value = value; }
+    public BigDecimal getValue() { return value; }
+    public void setValue(BigDecimal value) { this.value = value; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }

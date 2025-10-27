@@ -1,6 +1,8 @@
 package br.com.strfelix.finora_spring.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -33,11 +35,11 @@ public class Goal {
     @Column(name = "DS_META", length = 255)
     private String description;
 
-    @Column(name = "VL_ALVO", nullable = false, precision = 10, scale = 2)
-    private Double targetValue;
+    @Column(name = "VL_ALVO", precision = 10, scale = 2)
+    private BigDecimal targetValue;
 
-    @Column(name = "VL_ATUAL", nullable = false, precision = 10, scale = 2)
-    private Double currentValue;
+    @Column(name = "VL_ATUAL", precision = 10, scale = 2)
+    private BigDecimal currentValue;
 
     @Column(name = "DT_INICIO", nullable = false)
     private LocalDate startDate;
@@ -55,7 +57,7 @@ public class Goal {
     public Goal() {}
 
     public Goal(User user, Category category, String title, String description,
-                Double targetValue, Double currentValue, LocalDate startDate,
+                BigDecimal targetValue, BigDecimal currentValue, LocalDate startDate,
                 LocalDate endDate, String goalType, String notificationConfig) {
         this.user = user;
         this.category = category;
@@ -84,11 +86,11 @@ public class Goal {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public Double getTargetValue() { return targetValue; }
-    public void setTargetValue(Double targetValue) { this.targetValue = targetValue; }
+    public BigDecimal getTargetValue() { return targetValue; }
+    public void setTargetValue(BigDecimal targetValue) { this.targetValue = targetValue; }
 
-    public Double getCurrentValue() { return currentValue; }
-    public void setCurrentValue(Double currentValue) { this.currentValue = currentValue; }
+    public BigDecimal getCurrentValue() { return currentValue; }
+    public void setCurrentValue(BigDecimal currentValue) { this.currentValue = currentValue; }
 
     public LocalDate getStartDate() { return startDate; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }

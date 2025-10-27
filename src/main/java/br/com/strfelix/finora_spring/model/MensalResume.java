@@ -1,6 +1,8 @@
 package br.com.strfelix.finora_spring.model;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,11 +24,11 @@ public class MensalResume {
     @Column(name = "REF_MES", nullable = false, length = 7)
     private String refMonth; // Exemplo: "01/2025"
 
-    @Column(name = "TOTAL_ENTRADAS", nullable = false, precision = 10, scale = 2)
-    private Double totalEntry;
+    @Column(name = "TOTAL_ENTRADAS", precision = 10, scale = 2)
+    private BigDecimal totalEntry;
 
-    @Column(name = "TOTAL_SAIDAS", nullable = false, precision = 10, scale = 2)
-    private Double totalExit;
+    @Column(name = "TOTAL_SAIDAS", precision = 10, scale = 2)
+    private BigDecimal totalExit;
 
     @Lob
     @Column(name = "DS_CATEGORIAS", columnDefinition = "CLOB")
@@ -37,7 +39,7 @@ public class MensalResume {
 
     public MensalResume() {}
 
-    public MensalResume(String refMonth, Double totalEntry, Double totalExit, List<Transaction> transactionsPerCategory) {
+    public MensalResume(String refMonth, BigDecimal totalEntry, BigDecimal totalExit, List<Transaction> transactionsPerCategory) {
         this.refMonth = refMonth;
         this.totalEntry = totalEntry;
         this.totalExit = totalExit;
@@ -50,11 +52,11 @@ public class MensalResume {
     public String getRefMonth() { return refMonth; }
     public void setRefMonth(String refMonth) { this.refMonth = refMonth; }
 
-    public Double getTotalEntry() { return totalEntry; }
-    public void setTotalEntry(Double totalEntry) { this.totalEntry = totalEntry; }
+    public BigDecimal getTotalEntry() { return totalEntry; }
+    public void setTotalEntry(BigDecimal totalEntry) { this.totalEntry = totalEntry; }
 
-    public Double getTotalExit() { return totalExit; }
-    public void setTotalExit(Double totalExit) { this.totalExit = totalExit; }
+    public BigDecimal getTotalExit() { return totalExit; }
+    public void setTotalExit(BigDecimal totalExit) { this.totalExit = totalExit; }
 
     public String getTransactionsPerCategoryJson() { return transactionsPerCategoryJson; }
     public void setTransactionsPerCategoryJson(String transactionsPerCategoryJson) { this.transactionsPerCategoryJson = transactionsPerCategoryJson; }

@@ -3,6 +3,8 @@ package br.com.strfelix.finora_spring.model;
 import br.com.strfelix.finora_spring.model.enums.Frequency;
 import br.com.strfelix.finora_spring.model.enums.RecurrenceType;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +44,8 @@ public class Recurrence {
     @Column(name = "DS_RECORRENCIA", length = 100)
     private String description;
 
-    @Column(name = "VL_RECORENTE", nullable = false, precision = 10, scale = 2)
-    private Double value;
+    @Column(name = "VL_RECORRENTE", precision = 10, scale = 2)
+    private BigDecimal value;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TIPO_RECORRENCIA", nullable = false, length = 1)
@@ -68,7 +70,7 @@ public class Recurrence {
     public Recurrence() {}
 
     public Recurrence(User user, Category category, Local local, String title, String description,
-                      Double value, RecurrenceType type, Frequency frequency, LocalDate refDate,
+                      BigDecimal value, RecurrenceType type, Frequency frequency, LocalDate refDate,
                       Integer totalOccurrences, Integer remainingOccurrences) {
         this.user = user;
         this.category = category;
@@ -101,8 +103,8 @@ public class Recurrence {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public Double getValue() { return value; }
-    public void setValue(Double value) { this.value = value; }
+    public BigDecimal getValue() { return value; }
+    public void setValue(BigDecimal value) { this.value = value; }
 
     public RecurrenceType getType() { return type; }
     public void setType(RecurrenceType type) { this.type = type; }
