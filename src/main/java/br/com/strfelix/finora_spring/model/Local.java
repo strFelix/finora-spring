@@ -1,20 +1,54 @@
 package br.com.strfelix.finora_spring.model;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "T_SGF_LOCAL")
 public class Local {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_T_SGF_LOCAL")
+    @SequenceGenerator(
+            name = "SEQ_T_SGF_LOCAL",
+            sequenceName = "SEQ_T_SGF_LOCAL",
+            allocationSize = 1
+    )
+    @Column(name = "ID_LOCAL")
+    private Long id;
+
+    // N locais pertencem a 1 usuário
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
+
+    @Column(name = "NM_LOCAL", nullable = false, length = 100)
     private String name;
+
+    // CHAR(1) — ‘F’ (físico) ou ‘O’ (online)
+    @Column(name = "TIPO_LOCAL", nullable = false, length = 1)
     private String type;
+
+    @Column(name = "DS_ENDERECO", length = 200)
     private String address;
+
+    @Column(name = "DS_CORDENADAS", length = 100)
     private String coordinates;
-    private LocalDateTime lastUsed;
+
+    @Column(name = "DT_ULTIMO_USO")
+    private LocalDate lastUsed;
+
+    @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recurrence> recurrences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 
     public Local() {}
 
-    public Local(int id, User user, String name, String type, String address, String coordinates, LocalDateTime lastUsed) {
-        this.id = id;
+    public Local(User user, String name, String type, String address, String coordinates, LocalDate lastUsed) {
         this.user = user;
         this.name = name;
         this.type = type;
@@ -23,67 +57,52 @@ public class Local {
         this.lastUsed = lastUsed;
     }
 
-    public int getId() {
-        return id;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public String getCoordinates() { return coordinates; }
+    public void setCoordinates(String coordinates) { this.coordinates = coordinates; }
+
+    public LocalDate getLastUsed() { return lastUsed; }
+    public void setLastUsed(LocalDate lastUsed) { this.lastUsed = lastUsed; }
+
+    public void addRecurrence(Recurrence recurrence) {
+        recurrences.add(recurrence);
+        recurrence.setLocal(this);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void removeRecurrence(Recurrence recurrence) {
+        recurrences.remove(recurrence);
+        recurrence.setLocal(null);
     }
 
-    public User getUser() {
-        return user;
+    public void addTransaction(Transaction t) {
+        transactions.add(t);
+        t.setLocal(this);
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public LocalDateTime getLastUsed() {
-        return lastUsed;
-    }
-
-    public void setLastUsed(LocalDateTime lastUsed) {
-        this.lastUsed = lastUsed;
+    public void removeTransaction(Transaction t) {
+        transactions.remove(t);
+        t.setLocal(null);
     }
 
     @Override
     public String toString() {
         return "Local{" +
                 "id=" + id +
-                ", user=" + user +
+                ", userId=" + (user != null ? user.getId() : null) +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", address='" + address + '\'' +

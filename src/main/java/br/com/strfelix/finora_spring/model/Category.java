@@ -1,96 +1,127 @@
 package br.com.strfelix.finora_spring.model;
 
 import br.com.strfelix.finora_spring.model.enums.CategoryType;
+import jakarta.persistence.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "T_SGF_CATEGORIA")
 public class Category {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_T_SGF_CATEGORIA")
+    @SequenceGenerator(
+            name = "SEQ_T_SGF_CATEGORIA",
+            sequenceName = "SEQ_T_SGF_CATEGORIA",
+            allocationSize = 1
+    )
+    @Column(name = "ID_CATEGORIA")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
-    private String description;
+
+    @Column(name = "NM_CATEGORIA", nullable = false, length = 50)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TIPO_CATEGORIA", nullable = false, length = 30)
     private CategoryType type;
-    private Byte[] icon;
+
+    @Column(name = "ICONE_CATEGORIA", length = 30)
+    private String icon;
+
+    @Column(name = "COR_HEX", length = 7)
     private String colorHex;
-    private boolean isDefault;
+
+    @Column(name = "IS_PADRAO", nullable = false, length = 1)
+    private String isDefault; // 'S' ou 'N'
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Goal> goals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recurrence> recurrences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 
     public Category() {}
 
-    public Category(int id, User user, String description, CategoryType type, Byte[] icon, String colorHex, boolean isDefault) {
-        this.id = id;
+    public Category(User user, String name, CategoryType type, String icon, String colorHex, String isDefault) {
         this.user = user;
-        this.description = description;
+        this.name = name;
         this.type = type;
         this.icon = icon;
         this.colorHex = colorHex;
         this.isDefault = isDefault;
     }
 
-    public int getId() {
-        return id;
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public CategoryType getType() { return type; }
+    public void setType(CategoryType type) { this.type = type; }
+
+    public String getIcon() { return icon; }
+    public void setIcon(String icon) { this.icon = icon; }
+
+    public String getColorHex() { return colorHex; }
+    public void setColorHex(String colorHex) { this.colorHex = colorHex; }
+
+    public String getIsDefault() { return isDefault; }
+    public void setIsDefault(String isDefault) { this.isDefault = isDefault; }
+
+    public void addGoal(Goal goal) {
+        goals.add(goal);
+        goal.setCategory(this);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void removeGoal(Goal goal) {
+        goals.remove(goal);
+        goal.setCategory(null);
     }
 
-    public User getUser() {
-        return user;
+    public void addRecurrence(Recurrence recurrence) {
+        recurrences.add(recurrence);
+        recurrence.setCategory(this);
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void removeRecurrence(Recurrence recurrence) {
+        recurrences.remove(recurrence);
+        recurrence.setCategory(null);
     }
 
-    public String getDescription() {
-        return description;
+    public void addTransaction(Transaction t) {
+        transactions.add(t);
+        t.setCategory(this);
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CategoryType getType() {
-        return type;
-    }
-
-    public void setType(CategoryType type) {
-        this.type = type;
-    }
-
-    public Byte[] getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Byte[] icon) {
-        this.icon = icon;
-    }
-
-    public String getColorHex() {
-        return colorHex;
-    }
-
-    public void setColorHex(String colorHex) {
-        this.colorHex = colorHex;
-    }
-
-    public boolean isDefault() {
-        return isDefault;
-    }
-
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void removeTransaction(Transaction t) {
+        transactions.remove(t);
+        t.setCategory(null);
     }
 
     @Override
     public String toString() {
         return "Category{" +
                 "id=" + id +
-                ", user=" + user +
-                ", description='" + description + '\'' +
+                ", userId=" + (user != null ? user.getId() : null) +
+                ", name='" + name + '\'' +
                 ", type=" + type +
-                ", icon=" + Arrays.toString(icon) +
+                ", icon='" + icon + '\'' +
                 ", colorHex='" + colorHex + '\'' +
-                ", isDefault=" + isDefault +
+                ", isDefault='" + isDefault + '\'' +
                 '}';
     }
 }

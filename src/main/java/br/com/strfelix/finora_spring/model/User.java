@@ -3,6 +3,8 @@ package br.com.strfelix.finora_spring.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "T_SGF_USUARIO")
@@ -37,9 +39,24 @@ public class User {
     @Column(name = "DT_ULTIMO_LOGIN")
     private LocalDateTime lastLoginDate;
 
+    @Lob
     @Column(name = "PREF_USUARIO", columnDefinition = "CLOB")
     private String preferencesJson;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Goal> goals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Local> locals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recurrence> recurrences = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 
     public User() {
     }
@@ -82,6 +99,57 @@ public class User {
         this.creationDate = LocalDateTime.now();
         if (this.preferencesJson == null)
             this.preferencesJson = "{}";
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.setUser(this);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+        category.setUser(null);
+    }
+
+    public void addGoal(Goal goal) {
+        goals.add(goal);
+        goal.setUser(this);
+    }
+
+    public void removeGoal(Goal goal) {
+        goals.remove(goal);
+        goal.setUser(null);
+    }
+
+    public void addLocal(Local local) {
+        locals.add(local);
+        local.setUser(this);
+    }
+
+    public void removeLocal(Local local) {
+        locals.remove(local);
+        local.setUser(null);
+    }
+
+
+    public void addRecurrence(Recurrence recurrence) {
+        recurrences.add(recurrence);
+        recurrence.setUser(this);
+    }
+
+    public void removeRecurrence(Recurrence recurrence) {
+        recurrences.remove(recurrence);
+        recurrence.setUser(null);
+    }
+
+    public void addTransaction(Transaction t) {
+        transactions.add(t);
+        t.setUser(this);
+    }
+
+    public void removeTransaction(Transaction t) {
+        transactions.remove(t);
+        t.setUser(null);
     }
 
     @Override
