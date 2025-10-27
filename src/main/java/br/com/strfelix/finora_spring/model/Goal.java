@@ -1,6 +1,7 @@
 package br.com.strfelix.finora_spring.model;
 
 import br.com.strfelix.finora_spring.model.enums.GoalType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,11 +22,13 @@ public class Goal {
     private Long id;
 
     // N metas pertencem a 1 usuário
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
 
     // Meta pode estar vinculada a uma categoria
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CATEGORIA")
     private Category category;
