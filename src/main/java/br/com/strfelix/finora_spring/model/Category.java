@@ -1,6 +1,8 @@
 package br.com.strfelix.finora_spring.model;
 
+import br.com.strfelix.finora_spring.Utils.BooleanToCharConverter;
 import br.com.strfelix.finora_spring.model.enums.CategoryType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class Category {
     @Column(name = "ID_CATEGORIA")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
@@ -38,7 +41,8 @@ public class Category {
     private String colorHex;
 
     @Column(name = "IS_PADRAO", nullable = false, length = 1)
-    private String isDefault; // 'S' ou 'N'
+    @Convert(converter = BooleanToCharConverter.class)
+    private boolean isDefault;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Goal> goals = new ArrayList<>();
@@ -51,7 +55,7 @@ public class Category {
 
     public Category() {}
 
-    public Category(User user, String name, CategoryType type, String icon, String colorHex, String isDefault) {
+    public Category(User user, String name, CategoryType type, String icon, String colorHex, Boolean isDefault) {
         this.user = user;
         this.name = name;
         this.type = type;
@@ -79,8 +83,8 @@ public class Category {
     public String getColorHex() { return colorHex; }
     public void setColorHex(String colorHex) { this.colorHex = colorHex; }
 
-    public String getIsDefault() { return isDefault; }
-    public void setIsDefault(String isDefault) { this.isDefault = isDefault; }
+    public Boolean getIsDefault() { return isDefault; }
+    public void setIsDefault(Boolean isDefault) { this.isDefault = isDefault; }
 
     public void addGoal(Goal goal) {
         goals.add(goal);
