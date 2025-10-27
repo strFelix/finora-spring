@@ -1,15 +1,15 @@
 package br.com.strfelix.finora_spring.exception;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SecurityException.class)
     public ResponseEntity<String> handleSecurity(SecurityException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ex.getMessage() != null ? ex.getMessage() : "Access unauthorized");
+                .body(ex.getMessage() != null ? ex.getMessage() : "Access unauthorized.");
     }
 
     @ExceptionHandler(RuntimeException.class)
@@ -42,8 +42,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(DataIntegrityViolationException ex){
+    public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex){
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body("Conflict resource.");
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationErrors(MethodArgumentNotValidException ex) {
+        String errorMessage = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(field -> field.getField() + ": " + field.getDefaultMessage())
+                .findFirst()
+                .orElse("Validation error");
+        return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleJsonParseError(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body("Malformed JSON request.");
     }
 }
