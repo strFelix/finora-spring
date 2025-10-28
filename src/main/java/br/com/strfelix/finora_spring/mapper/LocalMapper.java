@@ -11,5 +11,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface LocalMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateGoalFromDto(Local source, @MappingTarget Local target);
+    void updateLocalFromDto(Local source, @MappingTarget Local target);
 }

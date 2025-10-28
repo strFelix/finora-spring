@@ -45,7 +45,7 @@ public class LocalService {
 
     public void updateLocal(Local local) {
         Local existingLocal = findLocalById(local.getId());
-        localMapper.updateGoalFromDto(local, existingLocal);
+        localMapper.updateLocalFromDto(local, existingLocal);
         localRepository.save(existingLocal);
     }
 
