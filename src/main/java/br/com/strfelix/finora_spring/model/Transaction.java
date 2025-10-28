@@ -1,6 +1,6 @@
 package br.com.strfelix.finora_spring.model;
 
-import br.com.strfelix.finora_spring.Utils.BooleanToCharConverter;
+import br.com.strfelix.finora_spring.utils.BooleanToCharConverter;
 import br.com.strfelix.finora_spring.model.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

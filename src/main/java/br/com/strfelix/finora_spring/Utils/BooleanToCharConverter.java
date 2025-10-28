@@ -1,4 +1,4 @@
-package br.com.strfelix.finora_spring.Utils;
+package br.com.strfelix.finora_spring.utils;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

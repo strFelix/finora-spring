@@ -1,4 +1,4 @@
-package br.com.strfelix.finora_spring.Utils;
+package br.com.strfelix.finora_spring.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

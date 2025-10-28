@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.strfelix.finora_spring.Utils.PasswordHasher;
+import br.com.strfelix.finora_spring.utils.PasswordHasher;
 import br.com.strfelix.finora_spring.model.Preferences;
 import br.com.strfelix.finora_spring.model.User;
 import br.com.strfelix.finora_spring.repository.UserRepository;
