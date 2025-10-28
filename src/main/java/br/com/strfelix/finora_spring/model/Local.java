@@ -1,5 +1,6 @@
 package br.com.strfelix.finora_spring.model;
 
+import br.com.strfelix.finora_spring.model.enums.LocalType;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class Local {
 
     // CHAR(1) — ‘F’ (físico) ou ‘O’ (online)
     @Column(name = "TIPO_LOCAL", nullable = false, length = 1)
-    private String type;
+    private LocalType type;
 
     @Column(name = "DS_ENDERECO", length = 200)
     private String address;
@@ -48,7 +49,7 @@ public class Local {
 
     public Local() {}
 
-    public Local(User user, String name, String type, String address, String coordinates, LocalDate lastUsed) {
+    public Local(User user, String name, LocalType type, String address, String coordinates, LocalDate lastUsed) {
         this.user = user;
         this.name = name;
         this.type = type;
@@ -66,8 +67,8 @@ public class Local {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public LocalType getType() { return type; }
+    public void setType(LocalType type) { this.type = type; }
 
     public String getAddress() { return address; }
     public void setAddress(String address) { this.address = address; }
