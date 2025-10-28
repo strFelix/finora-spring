@@ -1,6 +1,8 @@
 package br.com.strfelix.finora_spring.model;
 
+import br.com.strfelix.finora_spring.Utils.BooleanToCharConverter;
 import br.com.strfelix.finora_spring.model.enums.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,21 +23,25 @@ public class Transaction {
     private Long id;
 
     // N transações pertencem a 1 usuário
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
 
     // FK opcional para categoria
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CATEGORIA")
     private Category category;
 
     // FK opcional para recorrência
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_RECORRENCIA")
     private Recurrence recurrence;
 
     // FK opcional para local
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_LOCAL")
     private Local local;
@@ -60,7 +66,8 @@ public class Transaction {
     private Integer totalInstallments;
 
     @Column(name = "IS_RECORRENTE", nullable = false, length = 1)
-    private String isRecurring; // 'S' ou 'N' (sim/não)
+    @Convert(converter = BooleanToCharConverter.class)
+    private boolean isRecurring; // 'S' ou 'N' (sim/não)
 
     public Transaction() {}
 
@@ -77,7 +84,7 @@ public class Transaction {
         this.type = type;
         this.installment = installment;
         this.totalInstallments = totalInstallments;
-        this.isRecurring = recurring ? "S" : "N";
+        this.isRecurring = recurring;
     }
 
     public Long getId() { return id; }
@@ -113,8 +120,8 @@ public class Transaction {
     public Integer getTotalInstallments() { return totalInstallments; }
     public void setTotalInstallments(Integer totalInstallments) { this.totalInstallments = totalInstallments; }
 
-    public boolean isRecurring() { return "S".equalsIgnoreCase(isRecurring); }
-    public void setRecurring(boolean recurring) { this.isRecurring = recurring ? "S" : "N"; }
+    public boolean isRecurring() { return this.isRecurring; }
+    public void setRecurring(boolean recurring) { this.isRecurring = recurring; }
 
     @Override
     public String toString() {
