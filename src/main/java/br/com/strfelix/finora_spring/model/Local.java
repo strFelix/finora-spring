@@ -1,6 +1,7 @@
 package br.com.strfelix.finora_spring.model;
 
 import br.com.strfelix.finora_spring.model.enums.LocalType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Local {
     private Long id;
 
     // N locais pertencem a 1 usuário
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
