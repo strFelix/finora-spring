@@ -29,6 +29,7 @@ public class Local {
     private String name;
 
     // CHAR(1) — ‘F’ (físico) ou ‘O’ (online)
+    @Enumerated(EnumType.STRING)
     @Column(name = "TIPO_LOCAL", nullable = false, length = 1)
     private LocalType type;
 
