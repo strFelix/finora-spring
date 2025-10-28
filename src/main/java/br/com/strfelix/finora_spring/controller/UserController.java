@@ -21,35 +21,35 @@ import br.com.strfelix.finora_spring.service.UserService;
 @RequestMapping("/api/users/")
 public class UserController {
     @Autowired
-    private UserService _userService;
+    private UserService userService;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void CreateUser(@RequestBody User user){
-        _userService.CreateUser(user);
+        userService.CreateUser(user);
     }
 
     @PostMapping("/authenticate")
     @ResponseStatus(HttpStatus.OK)
     public User AuthenticateUser(@RequestBody Map<String, String> body){
-        return _userService.AuthenticateUser(body.get("email"), body.get("plainPassword"));
+        return userService.AuthenticateUser(body.get("email"), body.get("plainPassword"));
     }
 
     @PutMapping("/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void UpdateUser(@RequestBody User user){
-        _userService.UpdateUserById(user);
+        userService.UpdateUserById(user);
     }
 
     @PutMapping("/preferences/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void UpdateUserPreferences(@RequestBody Preferences preferences, @PathVariable Long userId){
-        _userService.UpdateUserPreferences(preferences, userId);
+        userService.UpdateUserPreferences(preferences, userId);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void DeleteUser(@PathVariable Long id){
-        _userService.DeleteUserById(id);
+        userService.DeleteUserById(id);
     }
 }
