@@ -2,6 +2,7 @@ package br.com.strfelix.finora_spring.model;
 
 import br.com.strfelix.finora_spring.model.enums.Frequency;
 import br.com.strfelix.finora_spring.model.enums.RecurrenceType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -24,16 +25,19 @@ public class Recurrence {
     private Long id;
 
     // N recorrências pertencem a 1 usuário
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
     private User user;
 
     // FK opcional para categoria
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_CATEGORIA")
     private Category category;
 
     // FK opcional para local
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_LOCAL")
     private Local local;
