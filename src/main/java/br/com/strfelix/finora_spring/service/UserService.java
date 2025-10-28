@@ -3,6 +3,7 @@ package br.com.strfelix.finora_spring.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import br.com.strfelix.finora_spring.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +20,25 @@ import jakarta.persistence.EntityNotFoundException;
 public class UserService {
 
     @Autowired
-    private UserRepository _userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public void CreateUser(User user){
         PasswordHasher passwordHasher = new PasswordHasher();
         String hashedPassword = passwordHasher.hashPassword(user.getPlainPassword());
         user.setPasswordHash(hashedPassword);
-        _userRepository.save(user);
+        userRepository.save(user);
     }
 
     public User AuthenticateUser(String email, String plainPassword){
-        Optional<User> optionalUser = _userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if(optionalUser.isPresent()){
             PasswordHasher passwordHasher = new PasswordHasher();
             if(passwordHasher.checkPassword(plainPassword, optionalUser.get().getPasswordHash())){
                 optionalUser.get().setLastLoginDate(LocalDateTime.now());
-                _userRepository.save(optionalUser.get());
+                userRepository.save(optionalUser.get());
                 return optionalUser.get();
             }
             else {
@@ -46,19 +50,15 @@ public class UserService {
         }
     }
 
-    public User FindUserById(Long id){
-        Optional<User> optionalUser = _userRepository.findById(id);
-        if(optionalUser.isPresent()){
-            return optionalUser.get();
-        }
-        else{
-            throw new EntityNotFoundException("User not found.");
-        }
+    public User FindUserById(Long userId){
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
     }
 
-    public void UpdateUserById(User user){
-        FindUserById(user.getId());
-        _userRepository.save(user);
+    public void UpdateUserById(User user, Long userId){
+        User existing = FindUserById(userId);
+        userMapper.updateUserFromDto(user, existing);
+        userRepository.save(existing);
     }
 
     public void UpdateUserPreferences(Preferences preferences, Long userId){
@@ -70,11 +70,11 @@ public class UserService {
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex.getMessage());
         }
-        _userRepository.save(user);
+        userRepository.save(user);
     }
 
-    public void DeleteUserById(Long id){
-        FindUserById(id);
-        _userRepository.deleteById(id);
+    public void DeleteUserById(Long userId){
+        FindUserById(userId);
+        userRepository.deleteById(userId);
     }
 }
