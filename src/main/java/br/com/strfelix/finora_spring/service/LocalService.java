@@ -34,23 +34,19 @@ public class LocalService {
         return localRepository.findByUserId(userId);
     }
 
-    public Local findLocalById(Long id) {
-        Optional<Local> optionalLocal = localRepository.findById(id);
-        if (optionalLocal.isPresent()) {
-            return optionalLocal.get();
-        } else {
-            throw new EntityNotFoundException("Local not found.");
-        }
+    public Local findLocalById(Long localId) {
+        return localRepository.findById(localId)
+                .orElseThrow(() -> new EntityNotFoundException("Local not found."));
     }
 
-    public void updateLocal(Local local) {
-        Local existingLocal = findLocalById(local.getId());
+    public void updateLocal(Local local, Long localId) {
+        Local existingLocal = findLocalById(localId);
         localMapper.updateLocalFromDto(local, existingLocal);
         localRepository.save(existingLocal);
     }
 
-    public void deleteLocal(Long id) {
-        findLocalById(id);
-        localRepository.deleteById(id);
+    public void deleteLocal(Long localId) {
+        findLocalById(localId);
+        localRepository.deleteById(localId);
     }
 }

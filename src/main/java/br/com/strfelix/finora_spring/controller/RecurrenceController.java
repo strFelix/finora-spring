@@ -32,21 +32,21 @@ public class RecurrenceController {
         return recurrenceService.findByUser(userId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{recurrenceId}")
     @ResponseStatus(HttpStatus.OK)
-    public Recurrence findById(@PathVariable Long id) {
-        return recurrenceService.findById(id);
+    public Recurrence findById(@PathVariable Long recurrenceId) {
+        return recurrenceService.findRecurrenceById(recurrenceId);
     }
 
-    @PutMapping("/")
+    @PutMapping("/{recurrenceId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateRecurrence(@RequestBody Recurrence recurrence) {
-        recurrenceService.updateRecurrence(recurrence);
+    public void updateRecurrence(@RequestBody Recurrence recurrence, @PathVariable Long recurrenceId) {
+        recurrenceService.updateRecurrence(recurrence, recurrenceId);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{recurrenceId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRecurrence(@PathVariable Long id) {
-        recurrenceService.deleteRecurrence(id);
+    public void deleteRecurrence(@PathVariable Long recurrenceId) {
+        recurrenceService.deleteRecurrence(recurrenceId);
     }
 }

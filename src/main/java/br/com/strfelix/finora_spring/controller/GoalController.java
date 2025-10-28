@@ -33,15 +33,15 @@ public class GoalController {
         return goalService.findGoalsByCategory(categoryId);
     }
 
-    @PutMapping("/")
+    @PutMapping("/{categoryId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateGoal(@RequestBody Goal goal) {
-        goalService.updateGoal(goal);
+    public void updateGoal(@RequestBody Goal goal, @PathVariable Long categoryId) {
+        goalService.updateGoal(goal, categoryId);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{categoryId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGoal(@PathVariable Long id) {
-        goalService.deleteGoal(id);
+    public void deleteGoal(@PathVariable Long categoryId) {
+        goalService.deleteGoal(categoryId);
     }
 }

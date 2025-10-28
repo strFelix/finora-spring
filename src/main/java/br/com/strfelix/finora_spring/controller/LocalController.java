@@ -27,21 +27,21 @@ public class LocalController {
         return localService.findLocalsByUser(userId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{localId}")
     @ResponseStatus(HttpStatus.OK)
-    public Local findLocalById(@PathVariable Long id) {
-        return localService.findLocalById(id);
+    public Local findLocalById(@PathVariable Long localId) {
+        return localService.findLocalById(localId);
     }
 
-    @PutMapping("/")
+    @PutMapping("/{localId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateLocal(@RequestBody Local local) {
-        localService.updateLocal(local);
+    public void updateLocal(@RequestBody Local local, @PathVariable Long localId) {
+        localService.updateLocal(local, localId);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{localId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLocal(@PathVariable Long id) {
-        localService.deleteLocal(id);
+    public void deleteLocal(@PathVariable Long localId) {
+        localService.deleteLocal(localId);
     }
 }

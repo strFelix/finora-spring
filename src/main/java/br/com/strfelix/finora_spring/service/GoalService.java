@@ -1,6 +1,7 @@
 package br.com.strfelix.finora_spring.service;
 
 import br.com.strfelix.finora_spring.mapper.GoalMapper;
+import br.com.strfelix.finora_spring.model.Category;
 import br.com.strfelix.finora_spring.model.Goal;
 import br.com.strfelix.finora_spring.repository.GoalRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,19 +39,19 @@ public class GoalService {
         return goals;
     }
 
-    private Goal findGoalById(Long id) {
-        return goalRepository.findById(id)
+    private Goal findGoalById(Long goalId) {
+        return goalRepository.findById(goalId)
                 .orElseThrow(() -> new EntityNotFoundException("Goal not found."));
     }
 
-    public void updateGoal(Goal goal) {
-        Goal existingGoal = findGoalById(goal.getId());
+    public void updateGoal(Goal goal, Long goalId) {
+        Goal existingGoal = findGoalById(goalId);
         goalMapper.updateGoalFromDto(goal, existingGoal);
         goalRepository.save(existingGoal);
     }
 
-    public void deleteGoal(Long id) {
-        findGoalById(id);
-        goalRepository.deleteById(id);
+    public void deleteGoal(Long goalId) {
+        findGoalById(goalId);
+        goalRepository.deleteById(goalId);
     }
 }

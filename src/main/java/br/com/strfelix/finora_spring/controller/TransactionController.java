@@ -33,21 +33,21 @@ public class TransactionController {
         return transactionService.findTransactionsByUser(userId);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{idTransaction}")
     @ResponseStatus(HttpStatus.OK)
-    public Transaction getTransactionById(@PathVariable Long id) {
-        return transactionService.findById(id);
+    public Transaction getTransactionById(@PathVariable Long idTransaction) {
+        return transactionService.findTransactionById(idTransaction);
     }
 
-    @PutMapping("/")
+    @PutMapping("/{idTransaction}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTransaction(@RequestBody Transaction transaction) {
-        transactionService.updateTransaction(transaction);
+    public void updateTransaction(@RequestBody Transaction transaction, @PathVariable Long idTransaction) {
+        transactionService.updateTransaction(transaction, idTransaction);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idTransaction}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTransaction(@PathVariable Long id) {
-        transactionService.deleteTransaction(id);
+    public void deleteTransaction(@PathVariable Long idTransaction) {
+        transactionService.deleteTransaction(idTransaction);
     }
 }

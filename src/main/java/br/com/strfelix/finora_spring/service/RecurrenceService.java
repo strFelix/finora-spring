@@ -53,23 +53,19 @@ public class RecurrenceService {
         return recurrenceRepository.findByUserId(userId);
     }
 
-    public Recurrence findById(Long id) {
-        Optional<Recurrence> optionalRecurrence = recurrenceRepository.findById(id);
-        if (optionalRecurrence.isPresent()) {
-            return optionalRecurrence.get();
-        } else {
-            throw new EntityNotFoundException("Recurrence not found.");
-        }
+    public Recurrence findRecurrenceById(Long recurrenceId) {
+        return recurrenceRepository.findById(recurrenceId)
+                .orElseThrow(() -> new EntityNotFoundException("Recurrence not found."));
     }
 
-    public void updateRecurrence(Recurrence recurrence) {
-        Recurrence existingRecurrence = findById(recurrence.getId());
+    public void updateRecurrence(Recurrence recurrence, Long recurrenceId) {
+        Recurrence existingRecurrence = findRecurrenceById(recurrenceId);
         recurrenceMapper.updateRecurrenceFromDto(recurrence, existingRecurrence);
         recurrenceRepository.save(existingRecurrence);
     }
 
-    public void deleteRecurrence(Long id) {
-        findById(id);
-        recurrenceRepository.deleteById(id);
+    public void deleteRecurrence(Long recurrenceId) {
+        findRecurrenceById(recurrenceId);
+        recurrenceRepository.deleteById(recurrenceId);
     }
 }

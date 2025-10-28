@@ -63,18 +63,13 @@ public class TransactionService {
         return transactions;
     }
 
-    public Transaction findById(Long id) {
-        return transactionRepository.findById(id)
+    public Transaction findTransactionById(Long transactionId) {
+        return transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new EntityNotFoundException("Transaction not found."));
     }
 
-    public void updateTransaction(Transaction transaction) {
-        Optional<Transaction> optional = transactionRepository.findById(transaction.getId());
-        if (optional.isEmpty()) {
-            throw new EntityNotFoundException("Transaction not found.");
-        }
-
-        Transaction existing = optional.get();
+    public void updateTransaction(Transaction transaction, Long transactionId) {
+        Transaction existing = findTransactionById(transactionId);
 
         if (transaction.getValue().compareTo(BigDecimal.ZERO) > 0)
             existing.setValue(transaction.getValue());
@@ -93,8 +88,8 @@ public class TransactionService {
         transactionRepository.save(existing);
     }
 
-    public void deleteTransaction(Long id) {
-        findById(id);
-        transactionRepository.deleteById(id);
+    public void deleteTransaction(Long transactionId) {
+        findTransactionById(transactionId);
+        transactionRepository.deleteById(transactionId);
     }
 }
