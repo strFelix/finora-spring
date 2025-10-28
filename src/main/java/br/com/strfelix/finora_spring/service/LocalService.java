@@ -1,7 +1,6 @@
 package br.com.strfelix.finora_spring.service;
 
 import br.com.strfelix.finora_spring.mapper.LocalMapper;
-import br.com.strfelix.finora_spring.model.Goal;
 import br.com.strfelix.finora_spring.model.Local;
 import br.com.strfelix.finora_spring.model.User;
 import br.com.strfelix.finora_spring.repository.LocalRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LocalService {

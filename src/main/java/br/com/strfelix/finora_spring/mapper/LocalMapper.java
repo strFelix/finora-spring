@@ -1,6 +1,5 @@
 package br.com.strfelix.finora_spring.mapper;
 
-import br.com.strfelix.finora_spring.model.Goal;
 import br.com.strfelix.finora_spring.model.Local;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;

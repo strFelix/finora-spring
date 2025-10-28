@@ -1,7 +1,6 @@
 package br.com.strfelix.finora_spring.service;
 
 import br.com.strfelix.finora_spring.mapper.GoalMapper;
-import br.com.strfelix.finora_spring.model.Category;
 import br.com.strfelix.finora_spring.model.Goal;
 import br.com.strfelix.finora_spring.repository.GoalRepository;
 import jakarta.persistence.EntityNotFoundException;
