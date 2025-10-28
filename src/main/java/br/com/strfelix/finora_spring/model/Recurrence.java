@@ -48,11 +48,11 @@ public class Recurrence {
     private BigDecimal value;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "TIPO_RECORRENCIA", nullable = false, length = 1)
+    @Column(name = "TIPO_RECORRENCIA", nullable = false, length = 20)
     private RecurrenceType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "FREQ_RECORRENCIA", nullable = false, length = 20)
+    @Column(name = "FREQ_RECORRENCIA", nullable = false, length = 1)
     private Frequency frequency;
 
     @Column(name = "DT_REFERENCIA")
