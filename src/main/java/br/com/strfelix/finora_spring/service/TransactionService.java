@@ -56,10 +56,7 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransactionsByUser(Long userId) {
-        List<Transaction> transactions = transactionRepository.findByUserId(userId);
-        if (transactions.isEmpty())
-            throw new EntityNotFoundException("No transactions found for user ID: " + userId);
-        return transactions;
+        return transactionRepository.findByUserId(userId);
     }
 
     public Transaction findTransactionById(Long transactionId) {
