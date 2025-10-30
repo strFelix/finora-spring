@@ -5,5 +5,6 @@ public enum CategoryType {
     FOOD,
     HEALTH,
     EDUCATION,
-    ENTERTAINMENT
+    ENTERTAINMENT,
+    OTHER
 }
