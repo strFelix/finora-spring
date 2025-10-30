@@ -1,21 +1,13 @@
 package br.com.strfelix.finora_spring.controller;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import br.com.strfelix.finora_spring.model.Preferences;
 import br.com.strfelix.finora_spring.model.User;
 import br.com.strfelix.finora_spring.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -33,6 +25,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public User AuthenticateUser(@RequestBody Map<String, String> body){
         return userService.AuthenticateUser(body.get("email"), body.get("plainPassword"));
+    }
+
+    @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public User GetUserById(@PathVariable Long userId){
+        return userService.FindUserById(userId);
     }
 
     @PutMapping("/{userId}")

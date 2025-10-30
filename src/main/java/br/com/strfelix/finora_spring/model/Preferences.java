@@ -18,7 +18,11 @@ public class Preferences {
     @Transient
     private boolean emailNotifications;
 
-    public Preferences() {}
+    @Transient
+    private byte[] avatar;
+
+    public Preferences() {
+    }
 
     public boolean isDarkMode() {
         return darkMode;
@@ -38,5 +42,13 @@ public class Preferences {
 
     public boolean isEmailNotifications() {
         return emailNotifications;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 }
